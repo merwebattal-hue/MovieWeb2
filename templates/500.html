@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}500 | MoviWeb{% endblock %}
+
+{% block content %}
+  <h1>500 - Interner Serverfehler</h1>
+  <p>Es ist ein unerwarteter Fehler aufgetreten.</p>
+  <a class="btn" href="{{ url_for('users_home') }}">Zurück zur Nutzerübersicht</a>
+{% endblock %}

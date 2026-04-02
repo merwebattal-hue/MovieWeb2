@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Filme | MoviWeb{% endblock %}
+
+{% block content %}
+
+  <a class="back-link" href="{{ url_for('users_home') }}">&larr; Zurück zu den Nutzern</a>
+
+  <h2>Filme von {{ benutzer.name }}</h2>
+
+  <form method="post" action="{{ url_for('film_hinzufuegen', benutzer_id=benutzer.id) }}" class="row">
+    <input type="text" name="titel" placeholder="Filmtitel eingeben (z. B. Inception)" required>
+    <button class="btn" type="submit">Hinzufügen</button>
+  </form>
+
+  <div class="grid">
+    {% for film in filme %}
+      <div class="card">
+
+        <div class="card-head">
+          <h3>{{ film.titel }}</h3>
+          <small>{{ film.jahr or "" }}</small>
+        </div>
+
+        <p><strong>Director:</strong> {{ film.director or "Unbekannt" }}</p>
+
+        {% if film.poster_url and film.poster_url != "N/A" %}
+          <img src="{{ film.poster_url }}" alt="Poster von {{ film.titel }}" class="poster">
+        {% endif %}
+
+        <form method="post"
+              action="{{ url_for('film_aktualisieren', benutzer_id=benutzer.id, film_id=film.id) }}"
+              class="row">
+          <input type="text" name="neuer_titel" value="{{ film.titel }}" required>
+          <button class="btn" type="submit">Update</button>
+        </form>
+
+        <form method="post"
+              action="{{ url_for('film_loeschen', benutzer_id=benutzer.id, film_id=film.id) }}">
+          <button class="btn danger" type="submit">Delete</button>
+        </form>
+
+      </div>
+    {% else %}
+      <p>Noch keine Filme vorhanden.</p>
+    {% endfor %}
+  </div>
+
+{% endblock %}
